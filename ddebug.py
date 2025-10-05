@@ -47,7 +47,6 @@ def run_debug_container(target):
         run(["docker", "rm", "-f", dbg_name], check=False)
 
     print(f"[+] Launching debug container attached to '{target}' ...")
-    shell = "/bin/sh -c 'apk update > /dev/null && apk add fish > /dev/null && fish'"
     cmd = [
         "docker", "run", "--rm", "-it",
         "--privileged",
@@ -57,8 +56,7 @@ def run_debug_container(target):
 #        f"--ipc=container:{target}",
         "--volumes-from", target,
         DOCKER_IMAGE,
-        shell
-    ]
+        "sh", "-c", "apk update > /dev/null && apk add fish > /dev/null && fish"
     os.execvp("docker", cmd)
 
 def main():
