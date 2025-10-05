@@ -47,8 +47,7 @@ def run_debug_container(target, shell=None):
         run(["docker", "rm", "-f", dbg_name], check=False)
 
     print(f"[+] Launching debug container attached to '{target}' ...")
-    if shell is None:
-        shell = "/bin/sh -c 'apk update > /dev/null && apk add fish > /dev/null && fish'"
+    shell = "/bin/sh -c 'apk update > /dev/null && apk add fish > /dev/null && fish'"
     cmd = [
         "docker", "run", "--rm", "-it",
         "--privileged",
