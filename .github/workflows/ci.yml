@@ -45,9 +45,6 @@ jobs:
       - name: Dry-run ddebug script
         run: |
           python ddebug.py --help
-      - name: Install Docker CLI
-        run: sudo apt-get update && sudo apt-get install -y docker.io
-
       - name: Launch test container
         run: docker run -d --name test_target alpine:latest tail -f /dev/null
 
