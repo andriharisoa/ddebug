@@ -48,7 +48,7 @@ def run_debug_container(target, shell=None):
 
     print(f"[+] Launching debug container attached to '{target}' ...")
     if shell is None:
-        shell = "/bin/sh -c 'apk update && apk add fish && fish'"
+        shell = "/bin/sh -c 'apk update > /dev/null && apk add fish > /dev/null && fish'"
     cmd = [
         "docker", "run", "--rm", "-it",
         "--privileged",
@@ -58,16 +58,15 @@ def run_debug_container(target, shell=None):
 #        f"--ipc=container:{target}",
         "--volumes-from", target,
         DOCKER_IMAGE,
-        "sh", "-c", "apk update > /dev/null && apk add fish > /dev/null && fish"
+        shell
     ]
     os.execvp("docker", cmd)
 
 def main():
-    parser = argparse.ArgumentParser(prog="ddebug", description="ddebug - BusyBox debug helper")
+    parser = argparse.ArgumentParser(prog="ddebug", description="ddebug - debug helper")
     sub = parser.add_subparsers(dest="cmd", required=True)
-    dbg = sub.add_parser("debug", help="open BusyBox shell attached to a container")
+    dbg = sub.add_parser("debug", help="open shell attached to a container")
     dbg.add_argument("target", help="target container name or id")
-    dbg.add_argument("--shell", default="/bin/sh", help="shell to use inside busybox (default: /bin/sh)")
     args = parser.parse_args()
 
     if not docker_exists():
