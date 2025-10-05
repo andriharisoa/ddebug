@@ -37,7 +37,7 @@ def check_target_running(name):
         return False
     return p.stdout.decode().strip().lower() == "true"
 
-def run_debug_container(target, shell=None):
+def run_debug_container(target):
     dbg_name = f"ddebug_{target}"
 
     # Remove old debug container if exists
@@ -80,7 +80,7 @@ def main():
             print(f"[!] Container '{args.target}' is not running.")
             sys.exit(1)
 
-        run_debug_container(args.target, args.shell)
+        run_debug_container(args.target)
 
 if __name__ == "__main__":
     main()
