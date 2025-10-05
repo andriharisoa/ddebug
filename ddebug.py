@@ -17,6 +17,7 @@ import sys
 
 DOCKER_IMAGE = "nicolaka/netshoot:latest"
 
+
 def run(cmd, capture=False, check=True):
     if isinstance(cmd, str):
         cmd = cmd.split()
@@ -24,18 +25,22 @@ def run(cmd, capture=False, check=True):
         return subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=check)
     return subprocess.run(cmd, check=check)
 
+
 def docker_exists():
     return shutil.which("docker") is not None
+
 
 def check_target_exists(name):
     p = run(["docker", "inspect", name], capture=True, check=False)
     return p.returncode == 0
+
 
 def check_target_running(name):
     p = run(["docker", "inspect", "-f", "{{.State.Running}}", name], capture=True, check=False)
     if p.returncode != 0:
         return False
     return p.stdout.decode().strip().lower() == "true"
+
 
 def run_debug_container(target):
     dbg_name = f"ddebug_{target}"
@@ -59,6 +64,7 @@ def run_debug_container(target):
         "sh", "-c", "apk update > /dev/null && apk add fish > /dev/null && fish" ]
     os.execvp("docker", cmd)
 
+
 def main():
     parser = argparse.ArgumentParser(prog="ddebug", description="ddebug - debug helper")
     sub = parser.add_subparsers(dest="cmd", required=True)
@@ -79,6 +85,7 @@ def main():
             sys.exit(1)
 
         run_debug_container(args.target)
+
 
 if __name__ == "__main__":
     main()
