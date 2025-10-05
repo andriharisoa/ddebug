@@ -61,7 +61,7 @@ def run_debug_container(target):
 #        f"--ipc=container:{target}",
         "--volumes-from", target,
         DOCKER_IMAGE,
-        "sh", "-c", "apk update > /dev/null && apk add fish > /dev/null && fish" ]
+        "sh", "-c", "apk update > /dev/null && apk add fish > /dev/null && fish"]
     os.execvp("docker", cmd)
 
 
