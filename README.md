@@ -28,7 +28,7 @@
 Clonez le dépôt et rendez le script exécutable :
 
 ```bash
-git clone https://github.com/<votre-utilisateur>/ddebug.git
+git clone https://github.com/andriharisoa/ddebug.git
 cd ddebug
 chmod +x ddebug.py
 ```
